@@ -39,3 +39,7 @@ def canUnlockAll(boxes):
 
     # Check if all boxes are unlocked
     return all(unlocked)
+
+# Example usage
+boxes = [[1], [2], [3], [4], []]
+print(canUnlockAll(boxes))
