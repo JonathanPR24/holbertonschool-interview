@@ -5,12 +5,14 @@ determines if all the boxes can be opened
 '''
 
 def canUnlockAll(boxes):
-    boxesOpened = [False] * len(boxes)
-    openBox(0, boxes, boxesOpened)
-    return all(boxesOpened)
+    num_boxes = len(boxes)
+    boxesOpened = [False] * num_boxes
+    stack = [0]  # Using a stack to simulate recursion
 
-def openBox(boxIndex, boxes, boxesOpened):
-    if boxIndex < len(boxesOpened) and not boxesOpened[boxIndex]:
-        boxesOpened[boxIndex] = True
-        for var in boxes[boxIndex]:
-            openBox(var, boxes, boxesOpened)
+    while stack:
+        boxIndex = stack.pop()
+        if not boxesOpened[boxIndex]:
+            boxesOpened[boxIndex] = True
+            stack.extend(boxes[boxIndex])
+
+    return all(boxesOpened)
