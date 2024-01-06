@@ -4,10 +4,12 @@
 determines if all the boxes can be opened
 '''
 
+
 def canUnlockAll(boxes):
     boxesOpened = [False] * len(boxes)
     openBox(0, boxes, boxesOpened)
     return all(boxesOpened)
+
 
 def openBox(boxIndex, boxes, boxesOpened):
     if boxIndex < len(boxesOpened) and not boxesOpened[boxIndex]:
