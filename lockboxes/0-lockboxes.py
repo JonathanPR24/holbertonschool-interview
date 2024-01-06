@@ -1,6 +1,15 @@
 #!/usr/bin/python3
 
 def canUnlockAll(boxes):
+    """
+    Determines whether all the boxes can be opened.
+
+    Parameters:
+    - boxes (List[List[int]]): A list of lists representing the boxes and keys.
+
+    Returns:
+    - bool: True if all boxes can be opened, else False.
+    """
     unlocked = [False] * len(boxes)
     unlocked[0] = True
 
