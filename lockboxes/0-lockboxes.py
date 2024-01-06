@@ -1,26 +1,39 @@
 #!/usr/bin/python3
-
+from collections import deque
 
 def canUnlockAll(boxes):
-    unlocked = [False] * len(boxes)
-    unlocked[0] = True
+    """
+    Determines whether all the boxes can be opened.
 
-    changed = True
+    Parameters:
+    - boxes (List[List[int]]): A list of lists representing the boxes and keys.
 
-    while (changed):
-        changed = False
+    Returns:
+    - bool: True if all boxes can be opened, else False.
+    """
+    num_boxes = len(boxes)
+    
+    # Initialize a list to track the state of box unlocking
+    unlocked = [False] * num_boxes
+    unlocked[0] = True  # The first box is initially unlocked
 
-        for i in range(len(boxes)):
-            if (not unlocked[i]):
-                continue
+    # Use a queue for breadth-first search starting with the first box
+    queue = deque([0])
 
-            for j in range(len(boxes[i])):
-                if (boxes[i][j] >= len(boxes)):
-                    continue
+    # Perform breadth-first search
+    while queue:
+        current_box = queue.popleft()
 
-                key = boxes[i][j]
-                if (not unlocked[key]):
-                    unlocked[key] = True
-                    changed = True
+        # Explore keys in the current box
+        for key in boxes[current_box]:
+            # Check if the key is valid and the corresponding box is not already unlocked
+            if key < num_boxes and not unlocked[key]:
+                unlocked[key] = True
+                queue.append(key)
 
+    # Check if all boxes are unlocked
     return all(unlocked)
+
+# Example usage
+boxes = [[1], [2], [3], [4], []]
+print(canUnlockAll(boxes))
