@@ -1,7 +1,10 @@
 #!/usr/bin/python3
+
+
 """
 Calculates the minimum operations
 """
+
 
 def minOperations(n):
     answer = 0
