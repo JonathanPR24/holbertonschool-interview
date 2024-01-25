@@ -8,7 +8,8 @@ Calculates the minimum operations
 
 def minOperations(n):
     """
-    Calculate the fewest number of operations needed to reach exactly n H characters.
+    Calculate the fewest number of operations
+    needed to reach exactly n H characters.
 
     Args:
     - n (int): Target number of H characters.
@@ -19,7 +20,7 @@ def minOperations(n):
     """
     if n <= 1:
         return 0
-    
+
     operations = 0
     divisor = 2
 
