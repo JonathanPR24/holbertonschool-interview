@@ -9,15 +9,16 @@
  */
 int is_palindrome(listint_t **head)
 {
-    listint_t *slow = *head, *fast = *head;
-    listint_t *prev_slow = NULL, *second_half = NULL;
+    listint_t *slow, *fast, *prev_slow, *second_half, *temp;  // Declare variables outside the function body
     int palindrome = 1;
+
+    slow = *head;
+    fast = *head;
+    prev_slow = NULL;
 
     if (*head == NULL || (*head)->next == NULL) {
         return 1;  /* Empty list or single-node list is a palindrome */
     }
-
-    listint_t *temp;  // Declare 'temp' outside the code block
 
     // Move 'fast' to the middle and reverse the second half
     while (fast != NULL && fast->next != NULL)
