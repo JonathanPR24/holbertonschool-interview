@@ -13,8 +13,11 @@ int is_palindrome(listint_t **head)
     listint_t *prev_slow = NULL, *second_half = NULL;
     int palindrome = 1;
 
-    if (*head == NULL || (*head)->next == NULL)
-        return 1;  // Empty list or single-node list is a palindrome
+    if (*head == NULL || (*head)->next == NULL) {
+        return 1;  /* Empty list or single-node list is a palindrome */
+    }
+
+    listint_t *temp;  // Declare 'temp' outside the code block
 
     // Move 'fast' to the middle and reverse the second half
     while (fast != NULL && fast->next != NULL)
@@ -22,7 +25,7 @@ int is_palindrome(listint_t **head)
         fast = fast->next->next;
 
         // Reverse the second half
-        listint_t *temp = slow->next;
+        temp = slow->next;
         slow->next = prev_slow;
         prev_slow = slow;
         slow = temp;
@@ -51,7 +54,7 @@ int is_palindrome(listint_t **head)
     prev_slow = NULL;
     while (slow != NULL)
     {
-        listint_t *temp = slow->next;
+        temp = slow->next;
         slow->next = prev_slow;
         prev_slow = slow;
         slow = temp;
