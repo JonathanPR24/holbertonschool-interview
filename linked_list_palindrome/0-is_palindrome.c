@@ -1,4 +1,6 @@
 #include "lists.h"
+#include <stddef.h>
+#include <stdlib.h>
 
 /**
  * check_recursively - Recursively checks if a linked list is a palindrome
