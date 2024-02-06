@@ -34,12 +34,15 @@ int check_recursively(listint_t **start, listint_t *end)
  */
 int is_palindrome(listint_t **head)
 {
+    listint_t **start;
+    listint_t *end;
+
     /* Empty list is considered a palindrome */
     if (*head == NULL)
         return 1;
 
-    listint_t **start = head;
-    listint_t *end = *head;
+    start = head;
+    end = *head;
 
     /* Check recursively for palindrome */
     return check_recursively(start, end);
