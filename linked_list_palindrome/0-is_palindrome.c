@@ -1,66 +1,44 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "lists.h"
 
 /**
- * is_palindrome - checks if a singly linked list is a palindrome
- * @head: pointer to the head of the linked list
- * Return: 1 if palindrome, 0 otherwise
+ * check_recursively - Recursively checks if a linked list is a palindrome
+ * @start: Points to the start of the list
+ * @end: Points to the end of the list (updated recursively)
+ *
+ * Return: 1 if it is a palindrome, 0 otherwise
+ */
+int check_recursively(listint_t **start, listint_t *end)
+{
+    /* Base case: Reached the end of the list, it's a palindrome */
+    if (end == NULL)
+        return 1;
+
+    /* Compare values at start and end pointers */
+    if ((*start)->n != end->n)
+        return 0;
+
+    /* Move start pointer forward, and end pointer backward */
+    *start = (*start)->next;
+
+    /* Continue checking recursively */
+    return check_recursively(start, end->next);
+}
+
+/**
+ * is_palindrome - Checks if a singly linked list is a palindrome
+ * @head: Points to the start of the linked list
+ *
+ * Return: 1 if it is a palindrome, 0 otherwise
  */
 int is_palindrome(listint_t **head)
 {
-    listint_t *slow, *fast, *prev_slow, *second_half, *temp;  // Declare variables outside the function body
-    int palindrome = 1;
+    /* Empty list is considered a palindrome */
+    if (*head == NULL)
+        return 1;
 
-    slow = *head;
-    fast = *head;
-    prev_slow = NULL;
+    listint_t **start = head;
+    listint_t *end = *head;
 
-    if (*head == NULL || (*head)->next == NULL) {
-        return 1;  /* Empty list or single-node list is a palindrome */
-    }
-
-    // Move 'fast' to the middle and reverse the second half
-    while (fast != NULL && fast->next != NULL)
-    {
-        fast = fast->next->next;
-
-        // Reverse the second half
-        temp = slow->next;
-        slow->next = prev_slow;
-        prev_slow = slow;
-        slow = temp;
-    }
-
-    // Adjust pointers based on even or odd length
-    if (fast != NULL)
-        slow = slow->next;
-
-    second_half = slow;  // Head of the reversed second half
-
-    // Compare the first and reversed second halves
-    while (prev_slow != NULL && second_half != NULL)
-    {
-        if (prev_slow->n != second_half->n)
-        {
-            palindrome = 0;
-            break;
-        }
-
-        prev_slow = prev_slow->next;
-        second_half = second_half->next;
-    }
-
-    // Restore the linked list to its original state (if needed)
-    prev_slow = NULL;
-    while (slow != NULL)
-    {
-        temp = slow->next;
-        slow->next = prev_slow;
-        prev_slow = slow;
-        slow = temp;
-    }
-    *head = prev_slow;
-
-    return palindrome;
+    /* Check recursively for palindrome */
+    return check_recursively(start, end);
 }
