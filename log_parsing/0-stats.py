@@ -1,4 +1,14 @@
 #!/usr/bin/python3
+"""
+This script reads log entries from standard input (stdin), processes each entry,
+and accumulates statistics including total file size and counts of different HTTP
+status codes. It prints statistics every 10 lines and upon receiving a keyboard
+interrupt (Ctrl+C).
+
+Example usage:
+    $ cat access.log | python3 log_analyzer.py
+"""
+
 from sys import stdin
 
 def printstats(file_size, status_codes):
