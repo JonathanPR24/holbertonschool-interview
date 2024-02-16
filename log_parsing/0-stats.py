@@ -1,43 +1,41 @@
 #!/usr/bin/python3
-import sys
-import signal
+from sys import stdin
 
-# Initialize variables to store statistics
-total_size = 0
-status_code_count = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
-line_count = 0
+def printstats(file_size, status_codes):
+    """
+    Prints statistics every 10 lines and upon Keyboard interruption.
+    Args:
+        file_size (int): Total file size.
+        status_codes (dict): Dictionary containing status codes and their counts.
+    """
+    print("File size:", file_size)
+    for code in sorted(status_codes):
+        if status_codes[code] > 0:
+            print(f"{code}: {status_codes[code]}")
 
-# Function to handle SIGINT (Ctrl+C)
-def signal_handler(sig, frame):
-    print_stats()
-    sys.exit(0)
 
-# Function to print statistics
-def print_stats():
-    global total_size, status_code_count
-    print("File size:", total_size)
-    for status_code in sorted(status_code_count.keys()):
-        if status_code_count[status_code] > 0:
-            print(f"{status_code}: {status_code_count[status_code]}")
+line_num = 0
+file_size = 0
+status_codes = {"200": 0, "301": 0, "400": 0, "401": 0,
+                "403": 0, "404": 0, "405": 0, "500": 0}
 
-# Register signal handler for SIGINT
-signal.signal(signal.SIGINT, signal_handler)
+try:
+    for line in stdin:
+        line_num += 1
+        split_line = line.split()
 
-# Read stdin line by line
-for line in sys.stdin:
-    line = line.strip()
-    parts = line.split()
-    if len(parts) != 7:
-        continue  # Skip lines with incorrect format
-    try:
-        status_code = int(parts[-2])
-        file_size = int(parts[-1])
-        if status_code in status_code_count:
-            status_code_count[status_code] += 1
-        total_size += file_size
-        line_count += 1
-        # Print statistics every 10 lines
-        if line_count % 10 == 0:
-            print_stats()
-    except ValueError:
-        continue  # Skip lines with non-integer status code or file size
+        if len(split_line) >= 7:
+            file_size += int(split_line[-1])
+            status_code = split_line[-2]
+            if status_code in status_codes:
+                status_codes[status_code] += 1
+
+        if line_num % 10 == 0:
+            printstats(file_size, status_codes)
+
+    printstats(file_size, status_codes)
+
+except Exception as e:
+    # Print statistics and raise exception upon error
+    printstats(file_size, status_codes)
+    raise e
