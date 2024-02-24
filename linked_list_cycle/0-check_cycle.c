@@ -12,12 +12,12 @@ int check_cycle(listint_t *list)
 
     while (slow && fast && fast->next)
     {
-        slow = slow->next;         // Move slow pointer by one step
-        fast = fast->next->next;   // Move fast pointer by two steps
+        slow = slow->next;         /* Move slow pointer by one step */
+        fast = fast->next->next;   /* Move fast pointer by two steps */
 
-        if (slow == fast)          // If slow and fast meet at some point, there is a cycle
+        if (slow == fast)          /* If slow and fast meet at some point, there is a cycle */
             return 1;
     }
 
-    return 0; // If we reach the end of the list, there is no cycle
+    return 0; /* If we reach the end of the list, there is no cycle */
 }
