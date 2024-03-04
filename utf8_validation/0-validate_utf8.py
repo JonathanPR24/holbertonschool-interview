@@ -1,13 +1,9 @@
 #!/usr/bin/python3
-"""
-utf8_validation
+""" 
+utf8_validation 
 
 This module provides a function to determine if a given data set represents
 a valid UTF-8 encoding.
-
-Example:
-    data = [65, 195, 128, 226, 152, 131]
-    print(validUTF8(data))  # Output: True
 """
 
 def validUTF8(data):
@@ -20,29 +16,23 @@ def validUTF8(data):
     Returns:
         bool: True if data is a valid UTF-8 encoding, False otherwise.
     """
-    num_bytes_to_check = 0
+    bytes_to_check = 0
 
-    for num in data:
-        if num_bytes_to_check == 0:
-            if num >> 5 == 0b110:
-                num_bytes_to_check = 1
-            elif num >> 4 == 0b1110:
-                num_bytes_to_check = 2
-            elif num >> 3 == 0b11110:
-                num_bytes_to_check = 3
-            elif num >> 7 == 0:
-                num_bytes_to_check = 0
+    for byte in data:
+        if bytes_to_check == 0:
+            if (byte & 0x80) == 0:
+                continue
+            elif (byte & 0xE0) == 0xC0:
+                bytes_to_check = 1
+            elif (byte & 0xF0) == 0xE0:
+                bytes_to_check = 2
+            elif (byte & 0xF8) == 0xF0:
+                bytes_to_check = 3
             else:
                 return False
         else:
-            if num >> 6 != 0b10:
+            if (byte & 0xC0) != 0x80:
                 return False
-            num_bytes_to_check -= 1
+            bytes_to_check -= 1
 
-    return num_bytes_to_check == 0
-
-
-# Example usage:
-if __name__ == "__main__":
-    data = [65, 195, 128, 226, 152, 131]
-    print(validUTF8(data))  # Output: True
+    return bytes_to_check == 0
