@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-
-""" 
+"""
 utf8_validation
 
 This module provides a function to determine if a given data set represents
@@ -41,3 +40,9 @@ def validUTF8(data):
             num_bytes_to_check -= 1
 
     return num_bytes_to_check == 0
+
+
+# Example usage:
+if __name__ == "__main__":
+    data = [65, 195, 128, 226, 152, 131]
+    print(validUTF8(data))  # Output: True
