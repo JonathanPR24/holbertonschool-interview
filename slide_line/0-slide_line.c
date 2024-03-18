@@ -1,5 +1,8 @@
 #include "slide_line.h"
-#include <stdio.h>
+
+int slide_right(int *line, size_t size);
+int slide_left(int *line, size_t size);
+int reorder(int *line, size_t size, int direction);
 
 /**
  * slide_line - Slide and merge an array of integers to the specified direction
@@ -10,98 +13,120 @@
  */
 int slide_line(int *line, size_t size, int direction)
 {
-    if (direction == SLIDE_RIGHT)
-        return slide_right(line, size);
-    else if (direction == SLIDE_LEFT)
-        return slide_left(line, size);
-    else
-        return 0; /* Invalid direction */
+	if (direction == SLIDE_RIGHT)
+		return (slide_right(line, size));
+	else
+		return (slide_left(line, size));
 }
 
-/**
- * slide_left - Slide and merge an array of integers to the left direction
- * @line: Pointer to the array of integers
- * @size: Number of elements in the array
- * Return: 1 upon success, 0 upon failure
- */
 int slide_left(int *line, size_t size)
 {
-    size_t i, j;
-    int merged = 0;
+	size_t i = 0;
+	int place = 0, first = 1;
 
-    for (i = 0; i < size; i++) {
-        if (line[i] == 0)
-            continue;
+	for (i = 0; i < size; i++)
+	{
+		if (line[i] == 0)
+			continue;
 
-        for (j = i + 1; j < size; j++) {
-            if (line[j] == 0)
-                continue;
-            if (line[i] == line[j]) {
-                line[i] *= 2;
-                line[j] = 0;
-                merged = 1;
-            }
-            break;
-        }
-    }
-
-    for (i = 0, j = 0; i < size; i++) {
-        if (line[i] != 0) {
-            if (i != j) {
-                line[j] = line[i];
-                line[i] = 0;
-                merged = 1;
-            }
-            j++;
-        }
-    }
-
-    if (!merged)
-        fprintf(stderr, "Failed to slide and merge line\n");
-
-    return merged;
+		if (first == 1)
+		{
+			place = i;
+			first = 0;
+		}
+		else
+		{
+			if (line[place] == line[i])
+			{
+				line[place] *= 2;
+				line[i] = 0;
+				first = 1;
+			}
+			else
+				place = i;
+		}
+	}
+	return (reorder(line, size, SLIDE_LEFT));
 }
 
-/**
- * slide_right - Slide and merge an array of integers to the right direction
- * @line: Pointer to the array of integers
- * @size: Number of elements in the array
- * Return: 1 upon success, 0 upon failure
- */
 int slide_right(int *line, size_t size)
 {
-    size_t i, j;
-    int merged = 0;
+	size_t i = 0;
+	int place = 0, first = 1;
 
-    for (i = size - 1; i < size; i--) {
-        if (line[i] == 0)
-            continue;
+	for (i = size - 1;; i--)
+	{
+		if (line[i] == 0 && i != 0)
+			continue;
+		if (first == 1)
+		{
+			place = i;
+			first = 0;
+		}
+		else
+		{
+			if (line[place] == line[i])
+			{
+				line[place] *= 2;
+				line[i] = 0;
+				first = 1;
+			}
+			else
+				place = i;
+		}
+		if (i == 0)
+			break;
+	}
+	return (reorder(line, size, SLIDE_RIGHT));
+}
 
-        for (j = i - 1;; j--) {
-            if (line[j] == 0 && j != 0)
-                continue;
-            if (line[i] == line[j]) {
-                line[i] *= 2;
-                line[j] = 0;
-                merged = 1;
-            }
-            break;
-        }
-    }
+int reorder(int *line, size_t size, int direction)
+{
+	size_t i, j;
+	int count_place = 0;
 
-    for (i = size - 1, j = size - 1; i < size; i--) {
-        if (line[i] != 0) {
-            if (i != j) {
-                line[j] = line[i];
-                line[i] = 0;
-                merged = 1;
-            }
-            j--;
-        }
-    }
+	if (direction == SLIDE_LEFT)
+	{
+		for (i = 0; i < size; i++)
+		{
+			if (line[i] == 0)
+				count_place++;
+			else if (line[i] != 0 && count_place > 0)
+			{
+				for (j = 0; j < size; j++)
+				{
+					if (line[j] == 0)
+					{
+						line[j] = line[i];
+						line[i] = 0;
+						break;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		for (i = size - 1;; i--)
+		{
+			if (line[i] == 0)
+				count_place++;
+			else if (line[i] != 0 && count_place > 0)
+			{
+				for (j = size - 1; j > 0; j--)
+				{
+					if (line[j] == 0)
+					{
+						line[j] = line[i];
+						line[i] = 0;
+						break;
+					}
+				}
+			}
+			if (i == 0)
+				break;
+		}
+	}
 
-    if (!merged)
-        fprintf(stderr, "Failed to slide and merge line\n");
-
-    return merged;
+	return (1);
 }
