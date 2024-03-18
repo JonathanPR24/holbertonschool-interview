@@ -44,7 +44,7 @@ int slide_line(int *line, size_t size, int direction)
     merge_values(line, size, direction);
 
     if (direction == SLIDE_LEFT) {
-        // Slide to the left
+        /* Slide to the left */
         j = 0;
         for (i = 0; i < size; i++) {
             if (line[i] != 0) {
@@ -55,7 +55,7 @@ int slide_line(int *line, size_t size, int direction)
             line[k] = 0;
         }
     } else if (direction == SLIDE_RIGHT) {
-        // Slide to the right
+        /* Slide to the right */
         j = size;
         for (i = size - 1; i < size; i--) {
             if (line[i] != 0) {
