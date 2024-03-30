@@ -8,11 +8,11 @@
  */
 void menger(int level)
 {
-    if (level < 0)
-        return;
-
     int n, m, j, x, y;
     char s;
+
+    if (level < 0)
+        return;
 
     m = pow(3, level);
     for (n = 0; n < m; n++)
