@@ -22,22 +22,23 @@ void menger(int level)
             _row = row;
             _col = col;
 
-            char character = '#'; // Default character is '#'
+            char character; /* Declare character here */
+            character = '#'; /* Default character is '#' */
 
-            // Check if current cell should be empty
+            /* Check if current cell should be empty */
             while (_row || _col)
             {
                 if (_row % 3 == 1 && _col % 3 == 1)
                 {
                     character = ' ';
-                    break; // No need to continue loop once determined
+                    break; /* No need to continue loop once determined */
                 }
                 _row /= 3;
                 _col /= 3;
             }
 
-            printf("%c", character); // Print the character
+            printf("%c", character); /* Print the character */
         }
-        printf("\n"); // Move to the next line after each row
+        printf("\n"); /* Move to the next line after each row */
     }
 }
