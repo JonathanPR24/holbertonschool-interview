@@ -9,7 +9,6 @@
 void menger(int level)
 {
     int size, row, col, step;
-    int r, c; /* Declare variables at the beginning */
 
     if (level < 0)
         return;
@@ -21,19 +20,21 @@ void menger(int level)
         for (col = 0; col < size; col++)
         {
             step = 1;
-            r = row; /* Assign values after declaration */
-            c = col;
+            int r = row, c = col;
 
             while (step <= size / 3)
             {
                 if (r % 3 == 1 && c % 3 == 1)
+                {
+                    printf(" ");
                     break;
+                }
                 r /= 3;
                 c /= 3;
                 step *= 3;
             }
 
-            if (step > 1)
+            if (step > size / 3)
                 printf(" ");
             else
                 printf("#");
