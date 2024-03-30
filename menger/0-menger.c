@@ -15,14 +15,14 @@ void menger(int level)
 
     size = pow(3, level);
 
+    char character = '#'; /* Declare and initialize character */
+
     for (row = 0; row < size; row++)
     {
         for (col = 0; col < size; col++)
         {
             _row = row;
             _col = col;
-
-            char character = '#'; /* Declare and initialize character */
 
             /* Check if current cell should be empty */
             while (_row || _col)
