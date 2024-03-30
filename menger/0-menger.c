@@ -1,51 +1,41 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "menger.h"
 #include <math.h>
+#include <stdio.h>
 
-void drawSquare(int size, int x, int y) {
-    for (int i = y; i < y + size; i++) {
-        for (int j = x; j < x + size; j++) {
-            if (i == y + size / 2 && j == x + size / 2)
+/**
+ * menger - Draws a 2D Menger Sponge
+ * @level: Level of the Menger Sponge to draw
+ */
+void menger(int level)
+{
+    int size, row, col, step;
+
+    if (level < 0)
+        return;
+
+    size = pow(3, level);
+
+    for (row = 0; row < size; row++)
+    {
+        for (col = 0; col < size; col++)
+        {
+            step = 1;
+            int r = row, c = col;
+
+            while (step <= size / 3)
+            {
+                if (r % 3 == 1 && c % 3 == 1)
+                    break;
+                r /= 3;
+                c /= 3;
+                step *= 3;
+            }
+
+            if (step > 1)
                 printf(" ");
             else
                 printf("#");
         }
         printf("\n");
     }
-}
-
-void mengerRecursive(int level, int size, int x, int y) {
-    if (level == 0) {
-        drawSquare(size, x, y);
-        return;
-    }
-    
-    int newSize = size / 3;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (!(i == 1 && j == 1)) {
-                mengerRecursive(level - 1, newSize, x + j * newSize, y + i * newSize);
-            }
-        }
-    }
-}
-
-void menger(int level) {
-    if (level < 0)
-        return;
-    
-    int size = (int)pow(3, level);
-    mengerRecursive(level, size, 0, 0);
-}
-
-int main(int argc, char **argv) {
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s level\n", argv[0]);
-        return EXIT_FAILURE;
-    }
-
-    int level = atoi(argv[1]);
-    menger(level);
-
-    return EXIT_SUCCESS;
 }
