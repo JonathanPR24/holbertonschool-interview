@@ -10,7 +10,7 @@ void menger(int level)
 {
     int n, m, j, x, y;
     char s;
-
+    
     if (level < 0)
         return;
 
