@@ -22,7 +22,8 @@ void menger(int level)
             _row = row;
             _col = col;
 
-            char character; /* Declare character here */
+            /* Declare character here */
+            char character;
             character = '#'; /* Default character is '#' */
 
             /* Check if current cell should be empty */
