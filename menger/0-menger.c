@@ -1,43 +1,39 @@
 #include "menger.h"
-#include <math.h>
 #include <stdio.h>
+#include <math.h>
 
 /**
- * menger - Draws a 2D Menger Sponge
- * @level: Level of the Menger Sponge to draw
+ * menger - function that draws a 2D Menger Sponge
+ * @level: level of the menger sponge to draw
  */
 void menger(int level)
 {
-    int size, row, col, _row, _col;
-
     if (level < 0)
         return;
 
-    size = pow(3, level);
+    int n, m, j, x, y;
+    char s;
 
-    char character = '#'; /* Declare and initialize character */
-
-    for (row = 0; row < size; row++)
+    m = pow(3, level);
+    for (n = 0; n < m; n++)
     {
-        for (col = 0; col < size; col++)
+        for (j = 0; j < m;)
         {
-            _row = row;
-            _col = col;
-
-            /* Check if current cell should be empty */
-            while (_row || _col)
+            s = '#';
+            x = n;
+            y = j++;
+            while (x > 0 || y > 0)
             {
-                if (_row % 3 == 1 && _col % 3 == 1)
+                if (x % 3 == 1 && y % 3 == 1)
                 {
-                    character = ' ';
-                    break; /* No need to continue loop once determined */
+                    s = ' ';
+                    break;
                 }
-                _row /= 3;
-                _col /= 3;
+                x /= 3;
+                y /= 3;
             }
-
-            printf("%c", character); /* Print the character */
+            putchar(s);
         }
-        printf("\n"); /* Move to the next line after each row */
+        putchar('\n');
     }
 }
