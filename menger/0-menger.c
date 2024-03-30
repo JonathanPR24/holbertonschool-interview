@@ -8,8 +8,7 @@
  */
 void menger(int level)
 {
-    int size, row, col, step;
-    int r, c; /* Declare variables at the beginning */
+    int size, row, col, _row, _col;
 
     if (level < 0)
         return;
@@ -20,27 +19,25 @@ void menger(int level)
     {
         for (col = 0; col < size; col++)
         {
-            step = 1;
-            r = row; /* Assign values after declaration */
-            c = col;
+            _row = row;
+            _col = col;
 
-            while (step <= size / 3)
+            char character = '#'; // Default character is '#'
+
+            // Check if current cell should be empty
+            while (_row || _col)
             {
-                if (r % 3 == 1 && c % 3 == 1)
+                if (_row % 3 == 1 && _col % 3 == 1)
                 {
-                    printf(" ");
-                    break;
+                    character = ' ';
+                    break; // No need to continue loop once determined
                 }
-                r /= 3;
-                c /= 3;
-                step *= 3;
+                _row /= 3;
+                _col /= 3;
             }
 
-            if (step > size / 3)
-                printf(" ");
-            else
-                printf("#");
+            printf("%c", character); // Print the character
         }
-        printf("\n");
+        printf("\n"); // Move to the next line after each row
     }
 }
