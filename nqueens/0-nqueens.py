@@ -1,18 +1,21 @@
 #!/usr/bin/python3
+"""N Queens Solver"""
+
 import sys
 
 def is_safe(board, row, col):
-    # Check this row on left side
+    """Check if it's safe to place a queen at position (row, col)"""
+    # Check this row on the left side
     for i in range(col):
         if board[row][i] == 1:
             return False
 
-    # Check upper diagonal on left side
+    # Check upper diagonal on the left side
     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
 
-    # Check lower diagonal on left side
+    # Check lower diagonal on the left side
     for i, j in zip(range(row, len(board), 1), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
@@ -20,6 +23,7 @@ def is_safe(board, row, col):
     return True
 
 def solve_nqueens(board, col):
+    """Recursive function to solve the N Queens problem"""
     if col >= len(board):
         return True
 
@@ -32,11 +36,13 @@ def solve_nqueens(board, col):
 
     return False
 
-def print_board(board):
+def print_board_state(board):
+    """Print the state of the chessboard"""
     for row in board:
         print(row)
 
 def nqueens(N):
+    """Main function to solve the N Queens problem"""
     if not isinstance(N, int):
         print("N must be a number")
         sys.exit(1)
