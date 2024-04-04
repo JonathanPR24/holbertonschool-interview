@@ -16,7 +16,7 @@ def is_safe(board, row, col):
             return False
 
     # Check lower diagonal on the left side
-    for i, j in zip(range(row, len(board), 1), range(col, -1, -1)):
+    for i, j in zip(range(row, len(board)), range(col, -1, -1)):
         if board[i][j] == 1:
             return False
 
@@ -36,8 +36,8 @@ def solve_nqueens(board, col):
 
     return False
 
-def print_board_state(board):
-    """Print the state of the chessboard"""
+def print_board(board):
+    """Print the board"""
     for row in board:
         print(row)
 
