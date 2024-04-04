@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """N Queens Solver"""
 
-
 import sys
-
 
 def is_safe(board, row, col):
     """Check if it's safe to place a queen at position (row, col)"""
@@ -24,7 +22,6 @@ def is_safe(board, row, col):
 
     return True
 
-
 def solve_nqueens(board, col):
     """Recursive function to solve the N Queens problem"""
     if col >= len(board):
@@ -39,12 +36,10 @@ def solve_nqueens(board, col):
 
     return False
 
-
 def print_board_state(board):
     """Print the state of the chessboard"""
     for row in board:
         print(row)
-
 
 def nqueens(N):
     """Main function to solve the N Queens problem"""
@@ -63,7 +58,6 @@ def nqueens(N):
     for row in board:
         queen_positions = [[i, row[i]] for i in range(len(row)) if row[i] == 1]
         print(queen_positions)
-
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
