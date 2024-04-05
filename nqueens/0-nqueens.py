@@ -1,72 +1,118 @@
 #!/usr/bin/python3
-"""N Queens Solver"""
+""" Determines how to safely position N queens on a board of N size """
+
 
 import sys
 
-def is_safe(board, row, col):
-    """Check if it's safe to place a queen at position (row, col)"""
-    # Check this row on the left side
-    for i in range(col):
-        if board[row][i] == 1:
+
+def solve_recursively(board, col, solutions):
+    """ Safely place queens column by column.
+        The function will continue to to backtrack,
+        even after a solution is printed, until
+        all solutions have been printed.
+    """
+
+    # Base case (all queens safely placed)
+    if col == len(board):
+        save_solution(board, len(board), solutions)
+        return
+
+    for row in range(len(board)):
+        # Validate current placement as safe
+        if validate_placement(board, col, row):
+
+            # Place queen
+            board[row][col] = 1
+
+            # Recurse to place in next column
+            solve_recursively(board, col + 1, solutions)
+
+            # Backtrack
+            board[row][col] = 0
+
+
+def validate_placement(board, col, row):
+    """ Determine if the queen can safely be placed """
+
+    # Check for leftward horizontal conflict
+    for x in range(col, -1, -1):
+        if board[row][x] == 1:
             return False
 
-    # Check upper diagonal on the left side
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
+    # Check for upward diagnol conflict
+    x = col
+    for y in range(row, -1, -1):
+        if board[y][x] == 1:
             return False
+        x -= 1
 
-    # Check lower diagonal on the left side
-    for i, j in zip(range(row, len(board)), range(col, -1, -1)):
-        if board[i][j] == 1:
+    # Check for downward diagnol conflict
+    x = col
+    for y in range(row, len(board)):
+        if board[y][x] == 1:
             return False
+        x -= 1
 
     return True
 
-def solve_nqueens(board, col):
-    """Recursive function to solve the N Queens problem"""
-    if col >= len(board):
-        return True
 
-    for i in range(len(board)):
-        if is_safe(board, i, col):
-            board[i][col] = 1
-            if solve_nqueens(board, col + 1):
-                return True
-            board[i][col] = 0
+def save_solution(board, size, solutions):
+    """ Saves solution of safe queen placement """
 
-    return False
+    placements = []
+
+    for row in range(size):
+        for col in range(size):
+            if board[row][col] == 1:
+                placements.append([row, col])
+
+    solutions.append(placements)
+
+
+def validate_args(args):
+    """ Validate user arguments """
+
+    # Program takes 2 arguments
+    if len(args) is not 2:
+        print('Usage: nqueens N')
+        sys.exit(1)
+
+    # n must be an integer
+    try:
+        n = int(args[1])
+    except ValueError:
+        print('N must be a number')
+        sys.exit(1)
+
+    # n must be >= 4
+    if n < 4:
+        print('N must be at least 4')
+        sys.exit(1)
+
+
+def print_solutions(solutions):
+    """ Print all solutions """
+
+    for solution in solutions:
+        print(solution)
+
 
 def print_board(board):
-    """Print the board"""
+    """ Print board for debug """
     for row in board:
         print(row)
 
-def nqueens(N):
-    """Main function to solve the N Queens problem"""
-    if not isinstance(N, int):
-        print("N must be a number")
-        sys.exit(1)
-    if N < 4:
-        print("N must be at least 4")
-        sys.exit(1)
 
-    board = [[0 for _ in range(N)] for _ in range(N)]
-    if not solve_nqueens(board, 0):
-        print("No solution found")
-        sys.exit(1)
+# Assign and validate user args
+validate_args(sys.argv)
+n = int(sys.argv[1])
 
-    for row in board:
-        queen_positions = [[i, row[i]] for i in range(len(row)) if row[i] == 1]
-        print(queen_positions)
+# Generate board of N size
+board = [[0 for col in range(n)] for row in range(n)]
+all_solutions = []
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-    try:
-        N = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
+# Solve board if possible
+solve_recursively(board, 0, all_solutions)
 
-    nqueens(N)
+# Print all solutions
+print_solutions(all_solutions)
